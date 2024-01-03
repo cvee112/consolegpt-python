@@ -16,7 +16,7 @@ This is one way to implement a ChatGPT-like interface for your shell/console usi
 
 ## This versus other ConsoleGPTs
 
-When I decided on a name, I didn't realize there were other console versions out there named ConsoleGPT (or Console-GPT), but I stuck with the name despite learning its redundancy as it still felt the most fitting. 
+When I decided on a name, I didn't realize there were other console versions out there named ConsoleGPT (or Console-GPT), but I stuck with the name despite redundancy as it still felt the most fitting. 
 
 Some features of this implementation that may or may not be shared by other versions:
 - The interface is a bit on the structured side in terms of presentation, mostly because of all the `print` statements.
