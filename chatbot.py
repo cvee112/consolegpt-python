@@ -52,9 +52,11 @@ print("""The available models are:\n
         7. gpt-3.5-turbo-16k\n""")
 
 while True:
-    model_choice = int(input("\nModel number (1-7): "))
-    if not ValueError:
+    try:
+        model_choice = int(input("\nModel number (1-7): "))
         break
+    except ValueError:
+        pass
 
 if model_choice.strip() == "":
     model = models['5']
