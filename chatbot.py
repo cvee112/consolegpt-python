@@ -28,7 +28,8 @@ Note: If you want the defaults, just leave the fields blank.\n
 -------------------------\n
 PART 1: CHOOSE YOUR MODEL\n
 -------------------------\n
-Choose wisely! Advanced models are more capable but cost more (see https://platform.openai.com/docs/models).\n""")
+Choose wisely! Advanced models are more capable but cost more.\n
+See https://platform.openai.com/docs/models for more details.\n""")
 
 # Ask for model number
 models = {
