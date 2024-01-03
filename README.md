@@ -19,7 +19,7 @@ This is one way to implement a ChatGPT-like interface for your shell/console usi
 When I decided on a name, I didn't realize there were other console versions out there named ConsoleGPT (or Console-GPT), but I stuck with the name despite redundancy as it still felt the most fitting. 
 
 Some features of this implementation that may or may not be shared by other versions:
-- The interface is a bit on the structured side in terms of presentation because of all the `print` statements.
+- The interface is a bit on the structured side presentation-wise because of all the `print` statements.
 - It provides extra customization: you can choose between the latest OpenAI models, give custom instructions, specify the model temperature (higher = more creative but less coherent), and name the chatbot.
 - The Python code reflects recent updates in how OpenAI models should be accessed (e.g., you should now be using `chat.completions.create` instead of `ChatCompletion.create`).
 
