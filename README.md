@@ -4,7 +4,7 @@ This is one way to implement a ChatGPT-like interface for your shell/console usi
 
 ## How to use
 
-**Note**: This assumes you already have Python. Check the [official Python website](https://www.python.org/downloads/) or online tutorials if you don't have it.
+**Note**: This assumes you already have Python. Check the [official Python website](https://www.python.org/downloads/) if you don't have it.
 
 0. If you haven't already, setup your OpenAI API key. See [OpenAI's Quickstart tutorial](https://platform.openai.com/docs/quickstart?context=python).
 
