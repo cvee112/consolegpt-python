@@ -20,7 +20,7 @@ print("""
 ===============\n
 INTRODUCTION\n
 ===============\n
-Welcome to CustomGPT! Here, you'll get an opportunity to chat with a custom bot.\n
+Welcome to ConsoleGPT! Here, you'll get an opportunity to chat with a custom bot using the model of your choice.\n
 \n===============\n
 DESIGN YOUR BOT\n
 ===============\n
