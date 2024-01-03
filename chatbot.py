@@ -53,15 +53,16 @@ print("""The available models are:\n
 
 while True:
     try:
-        model_choice = int(input("\nModel number (1-7): "))
-        break
+        model_choice = input("\nModel number (1-7): ")
+        if model_choice.strip() == "":
+            model = models['5']
+            break
+        else:
+            model_choice = int(model_choice)
+            model = models[str(model_choice)]
+            break
     except ValueError:
         pass
-
-if model_choice.strip() == "":
-    model = models['5']
-else:
-    model = models[str(model_choice)]
 
 # Go to part 2 (customize your bot)
 print("""\n--------------------------\n
