@@ -8,7 +8,7 @@ This is one way to implement a ChatGPT-like interface for your shell/console usi
 
 1. Download the [script](chatbot.py) into your preferred location.
 
-2. Open Terminal.
+2. Open Terminal and navigate to the script's location (e.g., `cd` in Linux/macOS).
    
 3. Input `python chatbot.py` to execute the script.
    
