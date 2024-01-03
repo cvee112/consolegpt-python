@@ -15,8 +15,7 @@ def chat(prompt, model, temperature, chatbot_name):
     context.append({"role": "assistant", "content":f'{response.choices[0].message.content}'})
     print(f"\n{chatbot_name}: {response.choices[0].message.content}")
 
-# Give introduction and go to part 1
-
+# Give introduction and go to part 1 (choose your model)
 print("""
 ===============\n
 INTRODUCTION\n
@@ -31,7 +30,7 @@ PART 1: CHOOSE YOUR MODEL\n
 -------------------------\n
 Choose wisely! Advanced models are more capable but cost more.\n""")
 
-# Ask for model
+# Ask for model number
 models = {
         '1': 'gpt-4-1106-preview',
         '2': 'gpt-4-vision-preview',
@@ -57,27 +56,24 @@ if model_choice.strip() == "":
 else:
     model = models[model_choice]
 
-# Go to part 2
-
+# Go to part 2 (customize your bot)
 print("""\n--------------------------\n
 PART 2: CUSTOMIZE YOUR BOT\n
 --------------------------""")
 
-# Ask for custom instructions (if they want)
+# Ask for custom instructions
 custom_instructions = input("\nCustom instructions (optional): ")
 
 if custom_instructions.strip() == "":
     custom_instructions = "You are a helpful assistant."
 
-# Ask for custom chatbot name
-
+# Ask for chatbot name
 chatbot_name = input("\nChatbot name (optional): ")
 
 if chatbot_name.strip() == "":
     chatbot_name = "Assistant"
 
-# Ask for temperature and validate if input within range
-
+# Ask for temperature within valid range
 temperature = -1
 
 while temperature < 0 or temperature > 1:
@@ -87,8 +83,7 @@ while temperature < 0 or temperature > 1:
     else:
         temperature = float(temperature)
 
-# Give transition
-
+# Go to part 3 (summary of parameters)
 print(f"""\n-----------------------------\n
 PART 3: SUMMARY OF PARAMETERS\n
 -----------------------------\n
@@ -100,14 +95,13 @@ Temperature: {temperature}""")
 # Create initial context
 context = [{'role':'system', 'content':f'{custom_instructions}'}]  # accumulate messages
 
-# Give transition
-
+# Transition to chat proper
 print(f"""\n\n===================\n
 CHAT WITH {chatbot_name.upper()}\n
 ===================\n
 If you want to end the chat at any point, type \"/end\" then <Enter>.\n""")
 
-# Prompt user to start chatting
+# Chat until user inputs "/end"
 while True:
     prompt = input("\nUser: ")
     if prompt.strip() != '/end':
@@ -115,7 +109,7 @@ while True:
     else:
         break
 
-# End chat session
+# Give outro
 print(f"""\n\n=============\n
 END OF SESSION\n
 =============\n
