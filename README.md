@@ -20,7 +20,7 @@ When I decided on a name, I didn't realize there were other console versions out
 
 Some features of this implementation that may or may not be shared by other versions:
 - The interface is a bit on the structured side in terms of presentation because of all the `print` statements.
-- It provides extra customization -- you can choose between the latest OpenAI models, give custom instructions, specify the model temperature (higher = more creative but less coherent), and name the chatbot.
+- It provides extra customization: you can choose between the latest OpenAI models, give custom instructions, specify the model temperature (higher = more creative but less coherent), and name the chatbot.
 - The Python code reflects recent updates in how OpenAI models should be accessed (e.g., you should now be using `chat.completions.create` instead of `ChatCompletion.create`).
 
 ## Questions or feedback?
