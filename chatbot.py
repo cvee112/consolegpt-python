@@ -42,20 +42,24 @@ models = {
         '7': 'gpt-3.5-turbo-16k'
 }
 
-model_choice = input("""The available models are:\n
-              1. gpt-4-1106-preview\n
-              2. gpt-4-vision-preview\n
-              3. gpt-4\n
-              4. gpt-4-32k\n
-              5. gpt-3.5-turbo-1106 (default)\n
-              6. gpt-3.5-turbo\n
-              7. gpt-3.5-turbo-16k\n
-              \nModel number: """)
+print("""The available models are:\n
+        1. gpt-4-1106-preview\n
+        2. gpt-4-vision-preview\n
+        3. gpt-4\n
+        4. gpt-4-32k\n
+        5. gpt-3.5-turbo-1106 (default)\n
+        6. gpt-3.5-turbo\n
+        7. gpt-3.5-turbo-16k\n""")
+
+while True:
+    model_choice = int(input("\nModel number (1-7): "))
+    if not ValueError:
+        break
 
 if model_choice.strip() == "":
     model = models['5']
 else:
-    model = models[model_choice]
+    model = models[str(model_choice)]
 
 # Go to part 2 (customize your bot)
 print("""\n--------------------------\n
