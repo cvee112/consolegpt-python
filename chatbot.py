@@ -62,7 +62,7 @@ while True:
             model_choice = int(model_choice)
             model = models[str(model_choice)]
             break
-    except ValueError:
+    except:
         print("\nPlease input valid number from 1 to 7. Leave blank to use the default.")
 
 # Go to part 2 (customize your bot)
