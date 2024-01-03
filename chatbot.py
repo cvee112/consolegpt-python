@@ -113,4 +113,4 @@ while True:
 print(f"""\n\n=============\n
 END OF SESSION\n
 =============\n
-Thanks for chatting with {chatbot_name}!""")
+Thanks for chatting with {chatbot_name}!\n""")
