@@ -6,7 +6,7 @@ This is one way to implement a ChatGPT-like interface for your shell/console usi
 
 0. If you haven't already, setup your OpenAI API key. See [OpenAI's Quickstart tutorial](https://platform.openai.com/docs/quickstart?context=python).
 
-1. Download the script into your preferred location.
+1. Download the [script](chatbot.py) into your preferred location.
 
 2. Open Terminal.
    
