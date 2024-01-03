@@ -10,7 +10,7 @@ This is one way to implement a ChatGPT-like interface for your shell/console usi
 
 2. Open Terminal.
    
-3. Type then <kbd>Enter</kbd> `python chatbot.py` to execute the script.
+3. Input `python chatbot.py` to execute the script.
    
 ## Questions or feedback?
 
