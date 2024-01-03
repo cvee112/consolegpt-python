@@ -37,7 +37,7 @@ models = {
         '2': 'gpt-4-vision-preview',
         '3': 'gpt-4',
         '4': 'gpt-4-32k',
-        '5': 'gpt-3.5-turbo-1106',
+        '5': 'gpt-3.5-turbo-1106 (default)',
         '6': 'gpt-3.5-turbo',
         '7': 'gpt-3.5-turbo-16k'
 }
@@ -56,13 +56,14 @@ while True:
         model_choice = input("\nModel number (1-7): ")
         if model_choice.strip() == "":
             model = models['5']
+            print("\nDefault model chosen.")
             break
         else:
             model_choice = int(model_choice)
             model = models[str(model_choice)]
             break
     except ValueError:
-        pass
+        print("\nPlease input valid number (1-7). Leave blank to choose default.")
 
 # Go to part 2 (customize your bot)
 print("""\n--------------------------\n
