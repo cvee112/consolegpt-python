@@ -12,7 +12,7 @@ This is one way to implement a ChatGPT-like interface for your shell/console usi
 
 2. Open your terminal and navigate to the script directory or repository (e.g., `cd /path/to/script/directory` in Linux/macOS).
 
-4. Input `python chatbot.py` to run the chatbot.
+4. Input `python chatbot.py` to run the chatbot. See sample runs [here](sample-runs.md).
 
 ## This versus other ConsoleGPTs
 
