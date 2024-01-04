@@ -66,13 +66,14 @@ def get_file_path(existing_path='', already_exists=False):
 # Define save_history function
 def save_history(context, file_path, model, custom_instructions, chatbot_name, temperature):
     with open(file_path, "w") as fp:
-        fp.write(f"{{'model': '{model}'}}\n"\
-                f"{{'custom_instructions': '{custom_instructions}'}}\n"\
-                f"{{'chatbot_name': '{chatbot_name}'}}\n"\
-                f"{{'temperature': '{temperature}'}}\n") 
+        fp.write(f"""{{"model": "{model}"}}\n"""\
+                f"""{{"custom_instructions": "{custom_instructions}"}}\n"""\
+                f"""{{"chatbot_name": "{chatbot_name}"}}\n"""\
+                f"""{{"temperature": "{temperature}"}}\n""") 
         for message in context:
             fp.write("%s\n" % message)
         print(f'\n\nChat history saved at {file_path}')
+    delete_duplicate_paths("path_memory.txt", str(file_path) + "\n")
     memory = open("path_memory.txt", "a")
     memory.write(file_path + "\n")
     memory.close()
@@ -112,8 +113,6 @@ def retrieve_history():
                 break
         except:
             print(f"\nPlease input a valid number from 1 to {len(history)}, or leave it blank to use the most recent history.")
-    
-    delete_duplicate_paths("path_memory.txt", str(chosen_history) + "\n")
 
     settings = []
 
