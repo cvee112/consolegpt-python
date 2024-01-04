@@ -130,7 +130,7 @@ def retrieve_history():
 
     return settings, messages, chosen_history
 
-# Give introduction and go to part 1 (choose your model)
+# Give introduction
 print("""
 =============\n
 INTRODUCTION\n
@@ -146,7 +146,6 @@ DESIGN YOUR BOT\n
 Note: If you want the defaults, just keep pressing <Enter>.\n""")
 
 # Go to part 0 (load history if chosen)
-
 print("""------------------------------------\n
 (OPTIONAL) PART 0: LOAD CHAT HISTORY\n
 ------------------------------------""")
@@ -171,7 +170,6 @@ else:
     print("\nNew chat will be created.")
 
 # Go to part 1 (choose your model)
-
 print("""\n-------------------------\n
 PART 1: CHOOSE YOUR MODEL\n
 -------------------------\n
