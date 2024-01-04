@@ -138,7 +138,7 @@ Welcome to ConsoleGPT!\n
 Here, you can:\n
 (1) Design your own GPT-based bot (or just choose the defaults),\n
 (2) Chat with it through your terminal, and\n
-(3) Save your chat history and settings for next time.!\n
+(3) Save your chat history and settings for next time.\n
 \n================\n
 DESIGN YOUR BOT\n
 ================\n
