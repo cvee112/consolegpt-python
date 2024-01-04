@@ -102,6 +102,7 @@ def retrieve_history():
             else:
                 chosen_history = history[0]
                 print("\nMost recent saved chat chosen. No other saved chats available.")
+                break
             if chosen_history.strip() == "":
                 print("\nMost recent saved chat chosen.")
                 chosen_history = history[len(history) - 1]
@@ -162,7 +163,6 @@ if history_choice is True:
             x = line[:-1]
             history.append(x)
     if len(history) != 0:
-        print("\nNote: this overwrites any custom instructions above.")
         settings, context, file_path = retrieve_history()
     else:
         print("\nNo saved chats found.")
@@ -232,8 +232,7 @@ if custom_instructions.strip() == "":
         custom_instructions = settings[1]['custom_instructions']
     else:
         custom_instructions = "You are a helpful assistant."
-
-print("\n" + custom_instructions)
+    print("\n" + custom_instructions)
 
 # Ask for chatbot name
 chatbot_name = input("\nChatbot name (optional): ")
@@ -243,8 +242,7 @@ if chatbot_name.strip() == "":
         chatbot_name = settings[2]['chatbot_name']
     else:
         chatbot_name = "Assistant"
-
-print("\n" + chatbot_name)
+    print("\n" + chatbot_name)
 
 # Ask for temperature within valid range
 temperature = -1
@@ -258,8 +256,7 @@ while temperature < 0 or temperature > 1:
             temperature = 0.7
     else:
         temperature = float(temperature)
-
-print("\n" + str(temperature))
+    print("\n" + str(temperature))
 
 # Go to part 3 (summary of parameters)
 print(f"""\n-----------------------------\n
