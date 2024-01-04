@@ -247,16 +247,25 @@ if chatbot_name.strip() == "":
 # Ask for temperature within valid range
 temperature = -1
 
-while temperature < 0 or temperature > 1:
+while True:
     temperature = input("\nTemperature [0.0 to 1.0, higher ≈ more creative] (optional): ")
-    if temperature.strip() == "":
-        if history_choice is True:
-            temperature = float(settings[3]['temperature'])
+    try:
+        if temperature.strip() == "":
+            if history_choice is True:
+                temperature = float(settings[3]['temperature'])
+            else:
+                temperature = 0.7
+            print("\n" + str(temperature))
+            break
+        elif float(temperature) < 0 or float(temperature) > 1:
+            raise ValueError
         else:
-            temperature = 0.7
-    else:
-        temperature = float(temperature)
-    print("\n" + str(temperature))
+            temperature = float(temperature)
+            break
+    except (KeyboardInterrupt, EOFError):
+        raise
+    except:
+        print("\nInput number within range.")
 
 # Go to part 3 (summary of parameters)
 print(f"""\n-----------------------------\n
