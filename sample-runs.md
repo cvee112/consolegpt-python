@@ -183,7 +183,7 @@ END OF SESSION
 Thanks for chatting with Assistant!
 `````
 
-# Sample Run 2 (Loading Past Chat)
+# Sample Run 2 (Loading the Previous Chat)
 
 `````
 =============
@@ -218,8 +218,6 @@ Note: If you want the defaults, just keep pressing <Enter>.
 ------------------------------------
 
 Retrieve chat history y/[n]? y
-
-Note: this overwrites any custom instructions above.
 
 History of saved chats (from oldest to most recent):
 1. /Users/cvee/Python/consolegpt/hello-world.txt
