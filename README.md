@@ -1,6 +1,6 @@
 # ConsoleGPT (Python)
 
-This is one way to implement a customizable ChatGPT-like interface for your shell/console using Python.
+This is one way to implement a ChatGPT-like interface for your shell/console using Python.
 
 ## How to use
 
