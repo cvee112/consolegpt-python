@@ -41,7 +41,7 @@ def get_file_path(existing_path='', already_exists=False):
             print("\nInput existing directory, or leave blank if current directory.")
     
     while True:
-        if already_exists == True:
+        if already_exists is True:
             filename = input("\nFilename (leave blank if same file): ")
         else:
             filename = input("\nFilename: ")
