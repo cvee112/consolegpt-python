@@ -7,7 +7,7 @@ import ast
 client = OpenAI()
 
 # Define chat function
-def chat(prompt, model , temperature, chatbot_name):
+def chat(prompt, model, temperature, chatbot_name):
     context.append({"role": "user", "content":f'{prompt}'})
     response = client.chat.completions.create(
         model=model,
@@ -297,7 +297,7 @@ while True:
         break
 
 # Ask to save chat history
-print(f"""\n\n==================\n
+print("""\n\n==================\n
 SAVE CHAT HISTORY\n
 ==================""")
 
@@ -318,7 +318,7 @@ else:
     print("\n\nChat history will not be saved.")
 
 # Give outro
-print(f"""\n\n===============\n
+print("""\n\n===============\n
 END OF SESSION\n
 ===============""")
 
