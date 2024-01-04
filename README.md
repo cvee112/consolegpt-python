@@ -12,15 +12,15 @@ This is one way to implement a ChatGPT-like interface for your shell/console usi
 
 2. Open your terminal and navigate to the script directory or repository (e.g., `cd /path/to/script/directory` in Linux/macOS).
 
-4. Input `python chatbot.py` to run the chatbot.
+4. Input `python chatbot.py` to run the chatbot. See sample runs [here](sample-runs.md).
 
 ## This versus other ConsoleGPTs
 
 When I decided on a name, I didn't realize there were other console versions out there named ConsoleGPT (or Console-GPT), but I stuck with the name despite redundancy as it still felt the most fitting. 
 
 Some features of this implementation that may or may not be shared by other versions:
-- The interface is a bit on the structured side presentation-wise because of all the `print` statements.
-- You can choose between the latest OpenAI models (assuming you have access), give custom instructions, specify the model temperature (higher = more creative but less coherent), and name the chatbot.
+- The interface is on the structured side presentation-wise, mostly because of all the `print` statements.
+- You can choose between the latest OpenAI models (assuming you have access), give custom instructions, name the chatbot, specify the model temperature (higher = more creative but less coherent), and save/load chat history files with their settings.
 - The Python code reflects recent updates in how OpenAI models should be accessed (e.g., you should now be using `chat.completions.create` instead of `ChatCompletion.create`).
 
 ## Questions or feedback?
