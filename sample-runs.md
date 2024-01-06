@@ -2,7 +2,7 @@
 
 This is a compilation of sample runs with ConsoleGPT (Python).
 
-# Sample Run 1 (Defaults)
+## Sample Run 1 (Defaults)
 
 `````
 =============
@@ -186,7 +186,7 @@ END OF SESSION
 Thanks for chatting with Assistant!
 `````
 
-# Sample Run 2 (Loading the Previous Chat)
+## Sample Run 2 (Loading the Previous Chat)
 
 `````
 =============
@@ -371,7 +371,7 @@ END OF SESSION
 Thanks for chatting with Assistant!
 `````
 
-# Sample Run 3 (Customized: GPT-4 Turbo)
+## Sample Run 3 (Customized: GPT-4 Turbo)
 
 `````
 =============
