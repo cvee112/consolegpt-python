@@ -192,7 +192,7 @@ DESIGN YOUR BOT\n
 ================\n
 Note: If you want the defaults, just keep pressing <Enter>.\n""")
 
-# Go to part 0 (load history if chosen)
+# Go to part 0 (load history if chosen and offer to skip customization)
 print("""------------------------------------\n
 (OPTIONAL) PART 0: LOAD CHAT HISTORY\n
 ------------------------------------""")
