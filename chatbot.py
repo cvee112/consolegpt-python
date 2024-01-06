@@ -2,6 +2,7 @@
 from openai import OpenAI
 import os
 import ast 
+import validators
 
 # Create client
 client = OpenAI()
@@ -9,10 +10,38 @@ client = OpenAI()
 # Define chat function
 def chat(prompt, model, temperature, chatbot_name):
     context.append({"role": "user", "content":f'{prompt}'})
+    if model == 'gpt-4-vision-preview':
+        response = client.chat.completions.create(
+            model=model,
+            messages=context,
+            temperature=temperature,
+            max_tokens=2048
+        )
+    else:
+        response = client.chat.completions.create(
+            model=model,
+            messages=context,
+            temperature=temperature
+        )
+    context.append({"role": "assistant", "content":f'{response.choices[0].message.content}'})
+    print(f"\n{chatbot_name}: {response.choices[0].message.content}")
+
+# Define img_url function
+def img_url(prompt, url, model, temperature, chatbot_name):
+    context.append({"role": "user", "content": [
+        {"type": "text", "text": prompt},
+        {
+            "type": "image_url",
+            "image_url": {
+                "url": url
+            }
+        }
+    ]})
     response = client.chat.completions.create(
         model=model,
         messages=context,
-        temperature=temperature
+        temperature=temperature,
+        max_tokens=300
     )
     context.append({"role": "assistant", "content":f'{response.choices[0].message.content}'})
     print(f"\n{chatbot_name}: {response.choices[0].message.content}")
@@ -294,8 +323,19 @@ if history_choice is True:
 
 while True:
     prompt = input("\nUser: ")
-    if prompt.strip() != '/end':
-        chat(prompt, model, temperature, chatbot_name)
+    if prompt.strip() == '/img':
+        while True:
+            url = input("\n    Image URL: ")
+            if validators.url(url) is True:
+                break
+            elif url == '/cancel':
+                break
+            else:
+                print("\n    Enter valid URL.")
+        img_prompt = input("\n    Prompt: ")
+        img_url(img_prompt, url, model, temperature, chatbot_name)
+    elif prompt.strip() != '/end':
+       chat(prompt, model, temperature, chatbot_name)
     else:
         break
 
