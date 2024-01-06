@@ -229,13 +229,13 @@ See https://platform.openai.com/docs/models for more details.\n""")
 
     # Ask for model number
     print("""The available models are:\n
-            1. gpt-4-1106-preview (GPT-4 Turbo)\n
-            2. gpt-4-vision-preview (GPT-4 Turbo with vision)\n
-            3. gpt-4\n
-            4. gpt-4-32k\n
-            5. gpt-3.5-turbo-1106 (default if new chat)\n
-            6. gpt-3.5-turbo\n
-            7. gpt-3.5-turbo-16k\n""")
+        1. gpt-4-1106-preview (GPT-4 Turbo)\n
+        2. gpt-4-vision-preview (GPT-4 Turbo with vision)\n
+        3. gpt-4\n
+        4. gpt-4-32k\n
+        5. gpt-3.5-turbo-1106 (default if new chat)\n
+        6. gpt-3.5-turbo\n
+        7. gpt-3.5-turbo-16k\n""")
 
     while True:
         try:
