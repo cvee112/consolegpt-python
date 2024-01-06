@@ -17,6 +17,25 @@ def chat(prompt, model, temperature, chatbot_name):
     context.append({"role": "assistant", "content":f'{response.choices[0].message.content}'})
     print(f"\n{chatbot_name}: {response.choices[0].message.content}")
 
+# Define img_upload function
+def img_upload(prompt, url, model, temperature, chatbot_name):
+    context.append({"role": "user", "content": [
+        {"type": "text", "text": prompt},
+        {
+            "type": "image_url",
+            "image_url": {
+                "url": url
+            }
+        }
+    ]})
+    response = client.chat.completions.create(
+        model=model,
+        messages=context,
+        temperature=temperature
+    )
+    context.append({"role": "assistant", "content":f'{response.choices[0].message.content}'})
+    print(f"\n{chatbot_name}: {response.choices[0].message.content}")
+
 # Define bool_yn function
 def bool_yn(choice, default=True):
     if choice == '':
