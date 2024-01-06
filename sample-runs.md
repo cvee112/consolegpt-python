@@ -1,5 +1,5 @@
 # Sample Runs
-**Note:** These sample runs are now outdated.
+**Note:** These sample runs are now outdated as of the latest release, but the flow is roughly the same.
 
 This is a compilation of sample runs with ConsoleGPT (Python).
 
