@@ -1,4 +1,6 @@
 # Sample Runs
+**Note:** These sample runs are now outdated.
+
 This is a compilation of sample runs with ConsoleGPT (Python).
 
 # Sample Run 1 (Defaults)
