@@ -4,7 +4,7 @@ This is one way to implement a ChatGPT-like interface for your shell/console usi
 
 ## How to use
 
-**Note**: This assumes you already have Python 3. Check the [official Python website](https://www.python.org/downloads/) if you don't.
+**Note**: This assumes you already have Python. Check the [official Python website](https://www.python.org/downloads/) if you don't.
 
 0. If you haven't already done so, setup your OpenAI API key (see [OpenAI's Quickstart tutorial](https://platform.openai.com/docs/quickstart?context=python)). Note that you need to be a paying customer to access GPT-4. Also, install the OpenAI Python library and the validators package with `pip install --upgrade openai validators`.
 
