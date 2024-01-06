@@ -57,6 +57,14 @@ def bool_yn(choice, default=True):
     else:
         print("\nInvalid input. Input only 'y' or 'n'.")
 
+# Define offer_presets function
+def offer_presets(): 
+    while True:
+        skip_customization = bool_yn(input("\nSkip customization [y]/n? "))
+        if isinstance(skip_customization, bool):
+            break  
+    return skip_customization
+
 # Define get_file_path function
 def get_file_path(existing_path='', already_exists=False): 
     while True:
@@ -158,6 +166,17 @@ def retrieve_history():
 
     return settings, messages, chosen_history
 
+# Create models dictionary
+models = {
+        '1': 'gpt-4-1106-preview',
+        '2': 'gpt-4-vision-preview',
+        '3': 'gpt-4',
+        '4': 'gpt-4-32k',
+        '5': 'gpt-3.5-turbo-1106',
+        '6': 'gpt-3.5-turbo',
+        '7': 'gpt-3.5-turbo-16k'
+}
+
 # Give introduction
 print("""
 =============\n
@@ -191,107 +210,116 @@ if history_choice is True:
             history.append(x)
     if len(history) != 0:
         settings, context, file_path = retrieve_history()
+        skip_customization = offer_presets()
     else:
         print("\nNo saved chats found.")
         history_choice = False
+        skip_customization = offer_presets()
 else:
     print("\nNew chat will be created.")
+    skip_customization = offer_presets()
 
-# Go to part 1 (choose your model)
-print("""\n-------------------------\n
+if skip_customization is False:
+    # Go to part 1 (choose your model)
+    print("""\n-------------------------\n
 PART 1: CHOOSE YOUR MODEL\n
 -------------------------\n
 Choose wisely! Advanced models are more capable but cost more.\n
 See https://platform.openai.com/docs/models for more details.\n""")
 
-# Ask for model number
-models = {
-        '1': 'gpt-4-1106-preview',
-        '2': 'gpt-4-vision-preview',
-        '3': 'gpt-4',
-        '4': 'gpt-4-32k',
-        '5': 'gpt-3.5-turbo-1106',
-        '6': 'gpt-3.5-turbo',
-        '7': 'gpt-3.5-turbo-16k'
-}
+    # Ask for model number
+    print("""The available models are:\n
+            1. gpt-4-1106-preview (GPT-4 Turbo)\n
+            2. gpt-4-vision-preview (GPT-4 Turbo with vision; pending support)\n
+            3. gpt-4\n
+            4. gpt-4-32k\n
+            5. gpt-3.5-turbo-1106 (default if new chat)\n
+            6. gpt-3.5-turbo\n
+            7. gpt-3.5-turbo-16k\n""")
 
-print("""The available models are:\n
-        1. gpt-4-1106-preview (GPT-4 Turbo)\n
-        2. gpt-4-vision-preview (GPT-4 Turbo with vision; pending support)\n
-        3. gpt-4\n
-        4. gpt-4-32k\n
-        5. gpt-3.5-turbo-1106 (default if new chat)\n
-        6. gpt-3.5-turbo\n
-        7. gpt-3.5-turbo-16k\n""")
-
-while True:
-    try:
-        model_choice = input("\nModel number (1-7): ")
-        if model_choice.strip() == "":
-            if history_choice is True:
-                model = settings[0]['model']
-                print(f"\nPast model ({model}) kept.")
+    while True:
+        try:
+            model_choice = input("\nModel number (1-7): ")
+            if model_choice.strip() == "":
+                if history_choice is True:
+                    model = settings[0]['model']
+                    print(f"\nPast model ({model}) kept.")
+                else:
+                    model = models['5']
+                    print(f"\nDefault model ({model}) chosen.")
+                break
             else:
-                model = models['5']
-                print(f"\nDefault model ({model}) chosen.")
-            break
-        else:
-            model_choice = int(model_choice)
-            model = models[str(model_choice)]
-            break
-    except (KeyboardInterrupt, EOFError):
-        raise
-    except:
-        print("\nPlease input a valid number from 1 to 7, or leave it blank to use the default.")
+                model_choice = int(model_choice)
+                model = models[str(model_choice)]
+                break
+        except (KeyboardInterrupt, EOFError):
+            raise
+        except:
+            print("\nPlease input a valid number from 1 to 7, or leave it blank to use the default.")
 
-# Go to part 2 (customize your bot)
-print("""\n--------------------------\n
+    # Go to part 2 (customize your bot)
+    print("""\n--------------------------\n
 PART 2: CUSTOMIZE YOUR BOT\n
 --------------------------\n
 If you loaded a history file, the defaults are past parameters.\n""")
 
-# Ask for custom instructions
-custom_instructions = input("\nCustom instructions (optional): ")
+    # Ask for custom instructions
+    custom_instructions = input("\nCustom instructions (optional): ")
 
-if custom_instructions.strip() == "":
-    if history_choice is True:
-        custom_instructions = settings[1]['custom_instructions']
-    else:
-        custom_instructions = "You are a helpful assistant."
-    print("\n" + custom_instructions)
-
-# Ask for chatbot name
-chatbot_name = input("\nChatbot name (optional): ")
-
-if chatbot_name.strip() == "":
-    if history_choice is True:
-        chatbot_name = settings[2]['chatbot_name']
-    else:
-        chatbot_name = "Assistant"
-    print("\n" + chatbot_name)
-
-# Ask for temperature within valid range
-temperature = -1
-
-while True:
-    temperature = input("\nTemperature [0.0 to 1.0, higher ≈ more creative] (optional): ")
-    try:
-        if temperature.strip() == "":
-            if history_choice is True:
-                temperature = float(settings[3]['temperature'])
-            else:
-                temperature = 0.7
-            print("\n" + str(temperature))
-            break
-        elif float(temperature) < 0 or float(temperature) > 1:
-            raise ValueError
+    if custom_instructions.strip() == "":
+        if history_choice is True:
+            custom_instructions = settings[1]['custom_instructions']
         else:
-            temperature = float(temperature)
-            break
-    except (KeyboardInterrupt, EOFError):
-        raise
-    except:
-        print("\nInput number within range.")
+            custom_instructions = "You are a helpful assistant."
+        print("\n" + custom_instructions)
+
+    # Ask for chatbot name
+    chatbot_name = input("\nChatbot name (optional): ")
+
+    if chatbot_name.strip() == "":
+        if history_choice is True:
+            chatbot_name = settings[2]['chatbot_name']
+        else:
+            chatbot_name = "Assistant"
+        print("\n" + chatbot_name)
+
+    # Ask for temperature within valid range
+    temperature = -1
+
+    while True:
+        temperature = input("\nTemperature [0.0 to 1.0, higher ≈ more creative] (optional): ")
+        try:
+            if temperature.strip() == "":
+                if history_choice is True:
+                    temperature = float(settings[3]['temperature'])
+                else:
+                    temperature = 0.7
+                print("\n" + str(temperature))
+                break
+            elif float(temperature) < 0 or float(temperature) > 1:
+                raise ValueError
+            else:
+                temperature = float(temperature)
+                break
+        except (KeyboardInterrupt, EOFError):
+            raise
+        except:
+            print("\nInput number within range.")
+else:
+    if history_choice is True:
+        print("\n\n\nLoading previous parameters...\n\n")
+    else:
+        print("\n\n\nChoosing default parameters...\n\n")
+    if history_choice is True:
+        model = settings[0]['model']
+        custom_instructions = settings[1]['custom_instructions']
+        chatbot_name = settings[2]['chatbot_name']
+        temperature = float(settings[3]['temperature'])
+    else:
+        model = models['5']
+        custom_instructions = "You are a helpful assistant."
+        chatbot_name = "Assistant"
+        temperature = 0.7
 
 # Go to part 3 (summary of parameters)
 print(f"""\n-----------------------------\n
@@ -313,6 +341,9 @@ CHAT WITH {chatbot_name.upper()}\n
 ====================\n
 If you want to end the chat at any point, type \"/end\" then <Enter>.\n""")
 
+if model == "gpt-4-vision-preview":
+    print("To upload an image, use \"/img\"; \"/cancel\" to abort.\n")
+
 # Chat until user inputs "/end"
 if history_choice is True:
     for message in context[1:]:
@@ -327,13 +358,16 @@ while True:
         while True:
             url = input("\n    Image URL: ")
             if validators.url(url) is True:
-                break
+                img_prompt = input("\n    Prompt: ")
+                if img_prompt == '/cancel':
+                    break
+                else:
+                    img_url(img_prompt, url, model, temperature, chatbot_name)
+                    break
             elif url == '/cancel':
                 break
             else:
                 print("\n    Enter valid URL.")
-        img_prompt = input("\n    Prompt: ")
-        img_url(img_prompt, url, model, temperature, chatbot_name)
     elif prompt.strip() != '/end':
        chat(prompt, model, temperature, chatbot_name)
     else:
