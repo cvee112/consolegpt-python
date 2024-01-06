@@ -222,10 +222,10 @@ else:
 if skip_customization is False:
     # Go to part 1 (choose your model)
     print("""\n-------------------------\n
-    PART 1: CHOOSE YOUR MODEL\n
-    -------------------------\n
-    Choose wisely! Advanced models are more capable but cost more.\n
-    See https://platform.openai.com/docs/models for more details.\n""")
+PART 1: CHOOSE YOUR MODEL\n
+-------------------------\n
+Choose wisely! Advanced models are more capable but cost more.\n
+See https://platform.openai.com/docs/models for more details.\n""")
 
     # Ask for model number
     print("""The available models are:\n
@@ -259,9 +259,9 @@ if skip_customization is False:
 
     # Go to part 2 (customize your bot)
     print("""\n--------------------------\n
-    PART 2: CUSTOMIZE YOUR BOT\n
-    --------------------------\n
-    If you loaded a history file, the defaults are past parameters.\n""")
+PART 2: CUSTOMIZE YOUR BOT\n
+--------------------------\n
+If you loaded a history file, the defaults are past parameters.\n""")
 
     # Ask for custom instructions
     custom_instructions = input("\nCustom instructions (optional): ")
@@ -306,9 +306,10 @@ if skip_customization is False:
         except:
             print("\nInput number within range.")
 else:
-    print("\n\n--------------------------------\n")
-    print("PART 1 & 2: CHOOSING DEFAULTS...")
-    print("\n--------------------------------\n")
+    if history_choice is True:
+        print("\n\n\nLoading previous parameters...\n\n")
+    else:
+        print("\n\n\nChoosing default parameters...\n\n")
     if history_choice is True:
         model = settings[0]['model']
         custom_instructions = settings[1]['custom_instructions']
