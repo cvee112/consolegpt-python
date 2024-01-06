@@ -1,5 +1,4 @@
 # Sample Runs
-**Note:** These sample runs are now outdated as of the latest release (v1.0.1), but the flow is roughly the same.
 
 This is a compilation of sample runs with ConsoleGPT (Python).
 
@@ -41,6 +40,8 @@ Retrieve chat history y/[n]? y
 
 No saved chats found.
 
+Skip customization [y]/n? n
+
 -------------------------
 
 PART 1: CHOOSE YOUR MODEL
@@ -55,7 +56,7 @@ The available models are:
 
         1. gpt-4-1106-preview (GPT-4 Turbo)
 
-        2. gpt-4-vision-preview (GPT-4 Turbo with vision; pending support)
+        2. gpt-4-vision-preview (GPT-4 Turbo with vision)
 
         3. gpt-4
 
@@ -226,6 +227,8 @@ History of saved chats (from oldest to most recent):
 
 Most recent saved chat chosen. No other saved chats available.
 
+Skip customization [y]/n? n
+
 -------------------------
 
 PART 1: CHOOSE YOUR MODEL
@@ -240,7 +243,7 @@ The available models are:
 
         1. gpt-4-1106-preview (GPT-4 Turbo)
 
-        2. gpt-4-vision-preview (GPT-4 Turbo with vision; pending support)
+        2. gpt-4-vision-preview (GPT-4 Turbo with vision)
 
         3. gpt-4
 
@@ -406,6 +409,8 @@ Retrieve chat history y/[n]?
 
 New chat will be created.
 
+Skip customization [y]/n? n
+
 -------------------------
 
 PART 1: CHOOSE YOUR MODEL
@@ -420,7 +425,7 @@ The available models are:
 
         1. gpt-4-1106-preview (GPT-4 Turbo)
 
-        2. gpt-4-vision-preview (GPT-4 Turbo with vision; pending support)
+        2. gpt-4-vision-preview (GPT-4 Turbo with vision)
 
         3. gpt-4
 
