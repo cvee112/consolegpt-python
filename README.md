@@ -29,4 +29,4 @@ Feel free to message me (@cvee) through Discord or email me at [cvescobar112@pro
 
 ## License
 
-This work is licensed under the MIT License. See `LICENSE` for more details.
+This work is licensed under the MIT License. See [LICENSE](LICENSE) for more details.
