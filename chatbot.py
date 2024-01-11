@@ -7,44 +7,69 @@ import validators
 # Create client
 client = OpenAI()
 
-# Define chat function
-def chat(prompt, model, temperature, chatbot_name):
-    context.append({"role": "user", "content":f'{prompt}'})
-    if model == 'gpt-4-vision-preview':
-        response = client.chat.completions.create(
-            model=model,
-            messages=context,
-            temperature=temperature,
-            max_tokens=2048
-        )
-    else:
-        response = client.chat.completions.create(
-            model=model,
-            messages=context,
-            temperature=temperature
-        )
-    context.append({"role": "assistant", "content":f'{response.choices[0].message.content}'})
-    print(f"\n{chatbot_name}: {response.choices[0].message.content}")
+# Define Chatbot class
+class Chatbot:
+    def __init__(self, model="gpt-3.5-turbo-1106", temperature=0.7, custom_instructions="You are a helpful assistant.", chatbot_name = "Assistant"):
+        self.model = model
+        self.temperature = temperature
+        self.custom_instructions = custom_instructions
+        self.chatbot_name = chatbot_name
+        self.context = [{'role':'system', 'content':f'{custom_instructions}'}]
 
-# Define img_url function
-def img_url(prompt, url, model, temperature, chatbot_name):
-    context.append({"role": "user", "content": [
-        {"type": "text", "text": prompt},
-        {
-            "type": "image_url",
-            "image_url": {
-                "url": url
+    def chat(self, prompt):
+        self.context.append({"role": "user", "content":f'{prompt}'})
+        if self.model == 'gpt-4-vision-preview':
+            response = client.chat.completions.create(
+                model=self.model,
+                messages=self.context,
+                temperature=self.temperature,
+                max_tokens=2048
+            )
+        else:
+            response = client.chat.completions.create(
+                model=self.model,
+                messages=self.context,
+                temperature=self.temperature
+            )
+        self.context.append({"role": "assistant", "content":f'{response.choices[0].message.content}'})
+        print(f"\n{self.chatbot_name}: {response.choices[0].message.content}")
+
+    def chat_image(self, prompt, url):
+        self.context.append({"role": "user", "content": [
+            {"type": "text", "text": prompt},
+            {
+                "type": "image_url",
+                "image_url": {
+                    "url": url
+                }
             }
-        }
-    ]})
-    response = client.chat.completions.create(
-        model=model,
-        messages=context,
-        temperature=temperature,
-        max_tokens=300
-    )
-    context.append({"role": "assistant", "content":f'{response.choices[0].message.content}'})
-    print(f"\n{chatbot_name}: {response.choices[0].message.content}")
+        ]})
+        response = client.chat.completions.create(
+            model=self.model,
+            messages=self.context,
+            temperature=self.temperature,
+            max_tokens=300
+        )
+        self.context.append({"role": "assistant", "content":f'{response.choices[0].message.content}'})
+        print(f"\n{self.chatbot_name}: {response.choices[0].message.content}")
+
+    def save(self, file_path):
+        with open(file_path, "w") as fp:
+            fp.write(f"""{{"model": "{self.model}"}}\n"""\
+                    f"""{{"custom_instructions": "{self.custom_instructions}"}}\n"""\
+                    f"""{{"chatbot_name": "{self.chatbot_name}"}}\n"""\
+                    f"""{{"temperature": "{self.temperature}"}}\n""") 
+            for message in self.context:
+                fp.write("%s\n" % message)
+            print(f'\n\nChat history saved at {file_path}')
+        with open("path_memory.txt", "r") as memory:
+            lines = memory.readlines()
+        with open("path_memory.txt", "w") as memory:
+            for line in lines:
+                if line.strip() != file_path.strip():
+                    memory.write(line)
+        with open("path_memory.txt", "a") as memory:
+            memory.write(file_path + "\n")
 
 # Define bool_yn function
 def bool_yn(choice, default=True):
@@ -66,7 +91,7 @@ def offer_presets():
     return skip_customization
 
 # Define get_file_path function
-def get_file_path(existing_path='', already_exists=False): 
+def get_file_path(existing_path ='', already_exists=False): 
     while True:
         directory = input("\nDirectory (optional): ")
         if directory == '':
@@ -99,31 +124,6 @@ def get_file_path(existing_path='', already_exists=False):
                 return existing_path
             else:
                 print("\nFilename is required.")
-
-# Define save_history function
-def save_history(context, file_path, model, custom_instructions, chatbot_name, temperature):
-    with open(file_path, "w") as fp:
-        fp.write(f"""{{"model": "{model}"}}\n"""\
-                f"""{{"custom_instructions": "{custom_instructions}"}}\n"""\
-                f"""{{"chatbot_name": "{chatbot_name}"}}\n"""\
-                f"""{{"temperature": "{temperature}"}}\n""") 
-        for message in context:
-            fp.write("%s\n" % message)
-        print(f'\n\nChat history saved at {file_path}')
-    delete_duplicate_paths("path_memory.txt", str(file_path) + "\n")
-    memory = open("path_memory.txt", "a")
-    memory.write(file_path + "\n")
-    memory.close()
-
-# Define delete_duplicate_paths function
-def delete_duplicate_paths(file, line_to_delete):
-    with open(file, 'r') as infile:
-        lines = infile.readlines()
-
-    with open(file, 'w') as outfile:
-        for line in lines:
-            if line.strip() != line_to_delete.strip():
-                outfile.write(line)
 
 # Define retrieve_history function
 def retrieve_history():
@@ -192,6 +192,9 @@ DESIGN YOUR BOT\n
 ================\n
 Note: If you want the defaults, just keep pressing <Enter>.\n""")
 
+# Create Chatbot instance
+bot = Chatbot()
+
 # Go to part 0 (load history if chosen and offer to skip customization)
 print("""------------------------------------\n
 (OPTIONAL) PART 0: LOAD CHAT HISTORY\n
@@ -210,6 +213,11 @@ if history_choice is True:
             history.append(x)
     if len(history) != 0:
         settings, context, file_path = retrieve_history()
+        bot.model = settings[0]['model']
+        bot.custom_instructions = settings[1]['custom_instructions']
+        bot.chatbot_name = settings[2]['chatbot_name']
+        bot.temperature = float(settings[3]['temperature'])
+        bot.context = context
         skip_customization = offer_presets()
     else:
         print("\nNo saved chats found.")
@@ -242,15 +250,13 @@ See https://platform.openai.com/docs/models for more details.\n""")
             model_choice = input("\nModel number (1-7): ")
             if model_choice.strip() == "":
                 if history_choice is True:
-                    model = settings[0]['model']
-                    print(f"\nPast model ({model}) kept.")
+                    print(f"\nPast model ({bot.model}) kept.")
                 else:
-                    model = models['5']
-                    print(f"\nDefault model ({model}) chosen.")
+                    print(f"\nDefault model ({bot.model}) chosen.")
                 break
             else:
                 model_choice = int(model_choice)
-                model = models[str(model_choice)]
+                bot.model = models[str(model_choice)]
                 break
         except (KeyboardInterrupt, EOFError):
             raise
@@ -267,21 +273,17 @@ If you loaded a history file, the defaults are past parameters.\n""")
     custom_instructions = input("\nCustom instructions (optional): ")
 
     if custom_instructions.strip() == "":
-        if history_choice is True:
-            custom_instructions = settings[1]['custom_instructions']
-        else:
-            custom_instructions = "You are a helpful assistant."
-        print("\n" + custom_instructions)
+        print("\n" + bot.custom_instructions)
+    else:
+        bot.custom_instructions = custom_instructions
 
     # Ask for chatbot name
     chatbot_name = input("\nChatbot name (optional): ")
 
     if chatbot_name.strip() == "":
-        if history_choice is True:
-            chatbot_name = settings[2]['chatbot_name']
-        else:
-            chatbot_name = "Assistant"
-        print("\n" + chatbot_name)
+        print("\n" + bot.chatbot_name)
+    else:
+        bot.chatbot_name = chatbot_name
 
     # Ask for temperature within valid range
     temperature = -1
@@ -290,16 +292,12 @@ If you loaded a history file, the defaults are past parameters.\n""")
         temperature = input("\nTemperature [0.0 to 1.0, higher ≈ more creative] (optional): ")
         try:
             if temperature.strip() == "":
-                if history_choice is True:
-                    temperature = float(settings[3]['temperature'])
-                else:
-                    temperature = 0.7
-                print("\n" + str(temperature))
+                print("\n" + str(bot.temperature))
                 break
             elif float(temperature) < 0 or float(temperature) > 1:
                 raise ValueError
             else:
-                temperature = float(temperature)
+                bot.temperature = float(temperature)
                 break
         except (KeyboardInterrupt, EOFError):
             raise
@@ -310,47 +308,33 @@ else:
         print("\n\n\nLoading previous parameters...\n\n")
     else:
         print("\n\n\nChoosing default parameters...\n\n")
-    if history_choice is True:
-        model = settings[0]['model']
-        custom_instructions = settings[1]['custom_instructions']
-        chatbot_name = settings[2]['chatbot_name']
-        temperature = float(settings[3]['temperature'])
-    else:
-        model = models['5']
-        custom_instructions = "You are a helpful assistant."
-        chatbot_name = "Assistant"
-        temperature = 0.7
 
 # Go to part 3 (summary of parameters)
 print(f"""\n-----------------------------\n
 PART 3: SUMMARY OF PARAMETERS\n
 -----------------------------\n
-Model: {model}\n
-Custom instructions: {custom_instructions}\n
-Chatbot name: {chatbot_name}\n
-Temperature: {temperature}\n
+Model: {bot.model}\n
+Custom instructions: {bot.custom_instructions}\n
+Chatbot name: {bot.chatbot_name}\n
+Temperature: {bot.temperature}\n
 Chat history: {"N/A" if not history_choice else file_path}""")
-
-# Initialize context (if new chat)
-if history_choice is False:
-    context = [{'role':'system', 'content':f'{custom_instructions}'}]
 
 # Transition to chat proper
 print(f"""\n\n====================\n
-CHAT WITH {chatbot_name.upper()}\n
+CHAT WITH {bot.chatbot_name.upper()}\n
 ====================\n
 If you want to end the chat at any point, type \"/end\" then <Enter>.\n""")
 
-if model == "gpt-4-vision-preview":
+if bot.model == "gpt-4-vision-preview":
     print("To upload an image, use \"/img\"; \"/cancel\" to abort.\n")
 
 # Chat until user inputs "/end"
 if history_choice is True:
-    for message in context[1:]:
+    for message in bot.context[1:]:
         if message['role'] == "user":
             print(f"\nUser: {message['content']}")
         if message['role'] == "assistant":
-            print(f"\n{chatbot_name}: {message['content']}")
+            print(f"\n{bot.chatbot_name}: {message['content']}")
 
 while True:
     prompt = input("\nUser: ")
@@ -362,14 +346,14 @@ while True:
                 if img_prompt == '/cancel':
                     break
                 else:
-                    img_url(img_prompt, url, model, temperature, chatbot_name)
+                    bot.chat_image(img_prompt, url)
                     break
             elif url == '/cancel':
                 break
             else:
                 print("\n    Enter valid URL.")
     elif prompt.strip() != '/end':
-       chat(prompt, model, temperature, chatbot_name)
+        bot.chat(prompt)
     else:
         break
 
@@ -386,11 +370,11 @@ while True:
 if save_choice is True and history_choice is False:
     print("\nChat history will be saved as a text file.\n")
     file_path = get_file_path()
-    save_history(context, file_path, model, custom_instructions, chatbot_name, temperature)
+    bot.save(file_path)
 elif save_choice is True and history_choice is True:
     print("\nChat history will be saved as a text file.\n")
     file_path = get_file_path(file_path, already_exists=True)
-    save_history(context, file_path, model, custom_instructions, chatbot_name, temperature)
+    bot.save(file_path)
 else:
     print("\n\nChat history will not be saved.")
 
@@ -399,4 +383,4 @@ print("""\n\n===============\n
 END OF SESSION\n
 ===============""")
 
-print(f"\nThanks for chatting with {chatbot_name}!\n")
+print(f"\nThanks for chatting with {bot.chatbot_name}!\n")
