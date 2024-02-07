@@ -148,6 +148,8 @@ def retrieve_history():
             else:
                 chosen_history = history[int(chosen_history) - 1]
                 break
+        except (KeyboardInterrupt, EOFError):
+            raise
         except:
             print(f"\nPlease input a valid number from 1 to {len(history)}, or leave it blank to use the most recent history.")
 
