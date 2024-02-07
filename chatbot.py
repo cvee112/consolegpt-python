@@ -353,7 +353,7 @@ CHAT WITH {bot.chatbot_name.upper()}\n
 If you want to end the chat at any point, type \"/end\" then <Enter>.\n""")
 
 if bot.model == "gpt-4-vision-preview":
-    print("To upload an image, use \"/img\"; \"/cancel\" to abort.\n")
+    print("To upload an image, use \"/img_url\" or \"/img_file\"; \"/cancel\" to abort.\n")
 
 # Chat until user inputs "/end"
 if history_choice is True:
@@ -367,7 +367,7 @@ if history_choice is True:
 
 while True:
     prompt = input("\nUser: ")
-    if prompt.strip() == '/img':
+    if prompt.strip() == '/img_url':
         while True:
             url = input("\n    Image URL: ")
             if validators.url(url) is True:
