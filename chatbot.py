@@ -59,36 +59,24 @@ class Chatbot:
     def chat_image_file(self, prompt, path):
         with open(path, "rb") as image_file:
             base64_image = base64.b64encode(image_file.read()).decode('utf-8')
-        api_key = input("\n    Your OpenAI Key: ")
-        headers = {
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {api_key}"
-            }
-        payload = {
-                "model": "gpt-4-vision-preview",
-                "messages": [
-                    {"role": "user", "content": [
-                        {
-                            "type": "text",
-                            "text": prompt
-                        },
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/jpeg;base64,{base64_image}"
-                            }
-                        }
-                    ]}
-                ],
-                "max_tokens": 300
-            }
 
-        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
-        response = dict(response.json())
-        response_content = response['choices'][0]['message']['content']
-        self.context.append(payload['messages'][0])
-        self.context.append({"role": "assistant", "content":f"{response_content}"})
-        print(f"\n{self.chatbot_name}: {response_content}")
+        self.context.append({"role": "user", "content": [
+            {"type": "text", "text": prompt},
+            {
+                "type": "image_url",
+                "image_url": {
+                    "url": f"data:image/jpeg;base64,{base64_image}"
+                }
+            }
+        ]})
+        response = client.chat.completions.create(
+            model=self.model,
+            messages=self.context,
+            temperature=self.temperature,
+            max_tokens=300
+        )
+        self.context.append({"role": "assistant", "content":f'{response.choices[0].message.content}'})
+        print(f"\n{self.chatbot_name}: {response.choices[0].message.content}")
 
     def save(self, file_path):
         with open(file_path, "w") as fp:
