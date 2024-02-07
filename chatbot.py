@@ -1,8 +1,11 @@
 # Import libraries
-from openai import OpenAI
-import os
 import ast 
+import base64
+from openai import OpenAI 
+import os
+import requests
 import validators
+
 
 # Create client
 client = OpenAI()
@@ -52,6 +55,40 @@ class Chatbot:
         )
         self.context.append({"role": "assistant", "content":f'{response.choices[0].message.content}'})
         print(f"\n{self.chatbot_name}: {response.choices[0].message.content}")
+
+    def chat_image_file(self, prompt, path):
+        with open(path, "rb") as image_file:
+            base64_image = base64.b64encode(image_file.read()).decode('utf-8')
+        api_key = input("\n    Your OpenAI Key: ")
+        headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {api_key}"
+            }
+        payload = {
+                "model": "gpt-4-vision-preview",
+                "messages": [
+                    {"role": "user", "content": [
+                        {
+                            "type": "text",
+                            "text": prompt
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{base64_image}"
+                            }
+                        }
+                    ]}
+                ],
+                "max_tokens": 300
+            }
+
+        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+        response = dict(response.json())
+        response_content = response['choices'][0]['message']['content']
+        self.context.append(payload['messages'][0])
+        self.context.append({"role": "assistant", "content":f"{response_content}"})
+        print(f"\n{self.chatbot_name}: {response_content}")
 
     def save(self, file_path):
         with open(file_path, "w") as fp:
@@ -354,6 +391,11 @@ while True:
                 break
             else:
                 print("\n    Enter valid URL.")
+    elif prompt.strip() == '/img_file':
+        img_path = input("\n    Image Path: ")
+        if img_path != '/cancel':
+            img_prompt = input("\n    Prompt: ")
+            bot.chat_image_file(img_prompt, img_path)
     elif prompt.strip() != '/end':
         bot.chat(prompt)
     else:
