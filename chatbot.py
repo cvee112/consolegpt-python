@@ -358,8 +358,10 @@ if bot.model == "gpt-4-vision-preview":
 # Chat until user inputs "/end"
 if history_choice is True:
     for message in bot.context[1:]:
-        if message['role'] == "user":
+        if message['role'] == "user" and len(message['content']) == 1:
             print(f"\nUser: {message['content']}")
+        elif message['role'] == "user" and len(message['content']) == 2:
+            print(f"\nUser: {message['content'][0]} ...")
         if message['role'] == "assistant":
             print(f"\n{bot.chatbot_name}: {message['content']}")
 
